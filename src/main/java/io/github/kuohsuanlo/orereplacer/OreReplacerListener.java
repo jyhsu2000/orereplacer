@@ -22,6 +22,7 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -72,7 +73,10 @@ public class OreReplacerListener implements Listener {
 			if(!OreReplacerUtil.isOre(block)  &&  !OreReplacerUtil.isUndergroundNonOreBlock(block)) return;
 			if(!OreReplacerUtil.isValidWorld(block.getWorld())) return;
 			if( OreReplacerUtil.attemptAddingValidLocation(block.getLocation()) ){
-				OreReplacerUtil.replaceFirstOre(block);
+				
+				OreReplacerUtil.replaceAllOreToStone(block);	
+    			//System.out.println("[OreReplacerPlugin] : "+"onBlockPistonExtendEvent explosion triggered. Skipping...");
+				//OreReplacerUtil.replaceFirstOre(block);
 			}
 		}
     }
@@ -87,7 +91,10 @@ public class OreReplacerListener implements Listener {
 			if(!OreReplacerUtil.isOre(block)  &&  !OreReplacerUtil.isUndergroundNonOreBlock(block)) return;
 			if(!OreReplacerUtil.isValidWorld(block.getWorld())) return;
 			if( OreReplacerUtil.attemptAddingValidLocation(block.getLocation()) ){
-				OreReplacerUtil.replaceFirstOre(block);
+
+				OreReplacerUtil.replaceAllOreToStone(block);	
+    			//System.out.println("[OreReplacerPlugin] : "+"onBlockPistonRetractEvent explosion triggered. Skipping...");
+				//OreReplacerUtil.replaceFirstOre(block);
 			}
 		}
 		
@@ -127,20 +134,18 @@ public class OreReplacerListener implements Listener {
 			OreReplacerUtil.replaceFirstOre(block);
 		}
     }
-    /*
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onBlockExplodeEvent(BlockExplodeEvent event) {
-    	Block block = event.getBlock();
-		
-		//if(!OreReplacerUtil.isOre(block)  &&  !OreReplacerUtil.isUndergroundBlock(block)) return;
-		if(!OreReplacerUtil.isValidWorld(block.getWorld())) {
-			return;
-		}
-		
-		OreReplacerUtil.hideAll(block,1);
-		//OreReplacerUtil.hideOre(block,1);
-    }*/
+
     
+    //when a block explodes...
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.LOWEST)
+    public void onWitherChangeBlockEvent(EntityChangeBlockEvent event){     
+    	if(event.getEntityType().equals(EntityType.WITHER)){
+
+			//System.out.println("[OreReplacerPlugin] : "+event.getEntityType().name()+" explosion triggered. Skipping...");
+			return;
+    	}
+    	
+    }
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onEntityExplodeEvent(EntityExplodeEvent event) {
     	for(Block block :  event.blockList()){
@@ -150,6 +155,13 @@ public class OreReplacerListener implements Listener {
     		}
     		
     		OreReplacerUtil.hideOre(block,1);*/
+    		
+    		if(	event.getEntityType().equals(EntityType.WITHER_SKULL)){
+    			
+    			//System.out.println("[OreReplacerPlugin] : "+event.getEntityType().name()+" explosion triggered. Skipping...");
+    			return;
+    		}
+    		
     		OreReplacerUtil.hideOre(block,3);
     		
     		if(!OreReplacerUtil.isOre(block)  &&  !OreReplacerUtil.isUndergroundNonOreBlock(block)){

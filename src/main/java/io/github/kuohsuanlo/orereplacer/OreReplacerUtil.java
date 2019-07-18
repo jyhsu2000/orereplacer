@@ -340,6 +340,15 @@ public class OreReplacerUtil {
     		}
     	}
     }
+
+	public static void replaceAllOreToStone(Block block){
+		if(block.getType().equals(Material.COAL_ORE)) block.setType(Material.STONE);
+		if(block.getType().equals(Material.DIAMOND_ORE)) block.setType(Material.STONE);
+		if(block.getType().equals(Material.EMERALD_ORE)) block.setType(Material.STONE);
+		if(block.getType().equals(Material.IRON_ORE)) block.setType(Material.STONE);
+		if(block.getType().equals(Material.LAPIS_ORE)) block.setType(Material.STONE);
+		if(block.getType().equals(Material.REDSTONE_ORE)) block.setType(Material.STONE);
+	}
 	public static void replaceFirstOre(Block block){
     	double x = block.getLocation().getBlockX();
     	double y = block.getLocation().getBlockY();

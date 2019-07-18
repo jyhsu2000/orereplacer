@@ -112,14 +112,6 @@ public class OreReplacerPlugin extends JavaPlugin {
         CommandExecutor = new OreReplacerCommand(this);
         getCommand("orereplacer").setExecutor(CommandExecutor);
         
-        if (pm.isPluginEnabled("PlaceholderAPI")) {
-         	new AddPlaceholder(this).hook();
-         	Bukkit.getServer().getConsoleSender().sendMessage("OreReplacerPlugin : "+"found PlaceholderAPI!");
-         	
-        } else {
-        	//throw new RuntimeException("OreReplacerPlugin : "+"Could not find PlaceholderAPI!");
-        }
-        
         OreReplacerPlugin.eventLocationListMining = new ArrayList<Location>();
         
     	config = getConfig();
